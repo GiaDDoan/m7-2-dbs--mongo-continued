@@ -1,0 +1,1 @@
+const result = await db.collection("seats").insertMany(seats);
