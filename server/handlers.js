@@ -23,19 +23,29 @@ const options = {
 // test("ticket_widget");
 
 const getSeats = async (req, res) => {
+  let numOfRows = 8;
+  let seatsPerRow = 12;
+
   const client = await MongoClient(MONGO_URI, options);
   await client.connect();
 
   const db = client.db("ticket_widget");
-  const result = await db.collection("seats").find().toArray();
+  const seats = await db.collection("seats").find().toArray();
 
-  if (result) {
+  if (seats) {
+    const seatsObj = {};
+    seats.forEach((seat) => {
+      // seatObj[seat._id] = { ...seat };
+      seatsObj[seat._id] = seat;
+    });
     res.status(200).json({
       status: 200,
-      data: result,
+      seats: seatsObj,
+      numOfRows,
+      seatsPerRow,
     });
   } else {
-    res.status(404).json({ status: 404, data: "Not found" });
+    res.status(404).json({ status: 404, seats: "Not found" });
   }
 };
 

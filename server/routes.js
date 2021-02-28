@@ -40,20 +40,20 @@ const randomlyBookSeats = (num) => {
 
 let state;
 
-router.get("/api/seat-availability", async (req, res) => {
-  if (!state) {
-    state = {
-      bookedSeats: randomlyBookSeats(30),
-    };
-  }
+// router.get("/api/seat-availability", async (req, res) => {
+//   if (!state) {
+//     state = {
+//       bookedSeats: randomlyBookSeats(30),
+//     };
+//   }
 
-  return res.json({
-    seats: seats,
-    bookedSeats: state.bookedSeats,
-    numOfRows: 8,
-    seatsPerRow: 12,
-  });
-});
+//   return res.json({
+//     seats: seats,
+//     bookedSeats: state.bookedSeats,
+//     numOfRows: 8,
+//     seatsPerRow: 12,
+//   });
+// });
 
 let lastBookingAttemptSucceeded = false;
 
