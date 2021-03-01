@@ -49,4 +49,14 @@ const getSeats = async (req, res) => {
   }
 };
 
-module.exports = { getSeats };
+const bookASeat = async (req, res) => {
+  const client = await MongoClient(MONGO_URI, options);
+  await client.connect();
+  const db = client.db("ticket_widget");
+
+  const query = {};
+  const newValues = { $set: { isBooked: true } };
+  await db.collection("seats");
+};
+
+module.exports = { getSeats, bookASeat };

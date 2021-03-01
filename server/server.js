@@ -1,6 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
-const { getSeats } = require("./handlers");
+const { getSeats, bookASeat } = require("./handlers");
 
 const PORT = 5678;
 
@@ -11,6 +11,7 @@ app.use(morgan("dev"));
 app.use(require("./routes"));
 // app.get("/api/test/seat-availability", getSeats);
 app.get("/api/seat-availability", getSeats);
+app.patch("/api/test/book-seat", bookASeat);
 
 const server = app.listen(PORT, function () {
   console.info("🌍 Listening on port " + server.address().port);
