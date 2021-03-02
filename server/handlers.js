@@ -50,13 +50,28 @@ const getSeats = async (req, res) => {
 };
 
 const bookASeat = async (req, res) => {
-  const client = await MongoClient(MONGO_URI, options);
-  await client.connect();
-  const db = client.db("ticket_widget");
+  const seatId = req.body.seatId;
+  const fullName = req.body.fullName;
+  const email = req.body.email;
+  console.log(req.body, seatId);
+  try {
+    const client = await MongoClient(MONGO_URI, options);
+    await client.connect();
+    const db = client.db("ticket_widget");
 
-  const query = {};
-  const newValues = { $set: { isBooked: true } };
-  await db.collection("seats");
+    const query = { _id: seatId };
+    const newValues = { $set: { isBooked: true, fullName, email } };
+    const bookingSeat = await db
+      .collection("seats")
+      .updateOne(query, newValues);
+
+    res.status(200).json({ status: 200, data: bookingSeat });
+    client.close();
+  } catch (err) {
+    res
+      .status(404)
+      .json({ status: 404, message: `Cannot book seat: ${seatId}` });
+  }
 };
 
 module.exports = { getSeats, bookASeat };
